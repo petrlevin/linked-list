@@ -15,9 +15,9 @@ namespace LinkedList.Tests
             var ll = new LinkedList<string>(); 
             ll.AddFirst("hello");
             ll.AddLast("world");
-            var world =ll.First();
+            var world =ll.HeadNode();
             ll.AddLast("upsd");
-            var upsd = ll.Last(); 
+            var upsd = ll.TailNode(); 
             ll.AddFirst("yes");
             var l = ll.ToList();
             Assert.AreEqual("yes",l[0]);
@@ -61,5 +61,8 @@ namespace LinkedList.Tests
             Assert.Pass();
            
         }
+
+
+  
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NUnit.Framework;
 using System.Diagnostics;
 
@@ -15,7 +15,7 @@ namespace LinkedList.Tests
         
 
         [Test]
-        public void Test1()
+        public void Test()
         {
             var ll = new LinkedList<string>(2); 
             ll.AddFirst("hello");

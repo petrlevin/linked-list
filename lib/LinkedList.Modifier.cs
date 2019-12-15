@@ -6,11 +6,20 @@ namespace LinkedList
         {
             protected LinkedList<T> List;
             protected Node<T>[] Nodes { get { return List._nodes; } }
+            protected abstract Node<T> NewNode(int previous, int next, T value);
+            protected abstract int Next(Node<T> node);
+            protected abstract int Previous(Node<T> node);
+            protected abstract void SetNext(int targetr, int next);
+            protected abstract void SetPrevious(int target, int previous);
+            protected abstract void SetTail(int index);
+            protected abstract void SetHead(int index);
+            protected abstract int GetTail();
+            protected abstract int GetHead();
             protected Modifier(LinkedList<T> list)
             {
                 List = list;
             }
-            
+           
             public ListNode<T> Add(ListNode<T> target, T value)
             {
                 var index = target._index;
@@ -22,7 +31,6 @@ namespace LinkedList
                     SetTail(place);
                 return List.NodeAt(place);
             }
-
             public void Add(T value)
             {
                 var place = List.AddNode(NewNode(-1, GetHead(), value));
@@ -32,16 +40,6 @@ namespace LinkedList
                 if (GetTail() < 0)
                     SetTail(place);
             }
-
-            protected abstract Node<T> NewNode(int previous, int next, T value);
-            protected abstract int Next(Node<T> node);
-            protected abstract int Previous(Node<T> node);
-            protected abstract void SetNext(int targetr, int next);
-            protected abstract void SetPrevious(int target, int previous);
-            protected abstract void SetTail(int index);
-            protected abstract void SetHead(int index);
-            protected abstract int GetTail();
-            protected abstract int GetHead();
         }
     }
 }

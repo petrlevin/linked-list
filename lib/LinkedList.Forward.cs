@@ -1,7 +1,5 @@
 namespace LinkedList
 {
-
-
     public partial class LinkedList<T>
     {
         internal class Forward : Modifier

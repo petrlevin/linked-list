@@ -4,12 +4,8 @@ using System.Linq;
 
 namespace LinkedList
 {
-
-
-
     public partial class LinkedList<T>
     {
-
         const string INVALID_NODE_MESSAGE = "Node is not valid. Has been removed";
         private int _capacity;
         private Node<T>[] _nodes;

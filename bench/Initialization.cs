@@ -7,8 +7,6 @@ namespace LinkedList.Bench
 {
     public class Initialization
     {
- 
-
         [Benchmark(Description = "LinkedList")]
         public void LinkedList()
         {
@@ -18,7 +16,6 @@ namespace LinkedList.Bench
             {
                 ll.AddLast('a');
             }
-
         }
 
         [Benchmark(Description = "System.Collections.Generic.LinkedList")]
@@ -30,8 +27,6 @@ namespace LinkedList.Bench
             {
                 ll.AddLast('a');
             }
-
         }
-
     }
 }

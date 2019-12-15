@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LinkedList
 {
-    public struct ListNode<T>:IEquatable<ListNode<T>>
+    public struct ListNode<T> : IEquatable<ListNode<T>>
     {
         internal int _index;
 
@@ -28,21 +28,32 @@ namespace LinkedList
             _list.SetValue(_index, _stamp, value);
         }
 
-
-        public ListNode<T> Next() => _list.GetNext(_index,_stamp);
-
-        public ListNode<T> Previous() => _list.GetPrevious(_index,_stamp);
-
-        public bool IsInList(){
-            return _list.HasSameStamp(_index,_stamp);
+        public static bool operator ==(ListNode<T> firts, ListNode<T> second)
+        {
+            return firts.Equals(second);
         }
 
-        public override bool Equals(object obj){
-            return (obj is ListNode<T>)&&Equals((ListNode<T>)obj);
+        public static bool operator !=(ListNode<T> firts, ListNode<T> second)
+        {
+            return !firts.Equals(second); ;
         }
-        
-        public bool Equals(ListNode<T> node){
-            return  (_list==node._list)&&(_index==node._index);
+        public ListNode<T> Next() => _list.GetNext(_index, _stamp);
+
+        public ListNode<T> Previous() => _list.GetPrevious(_index, _stamp);
+
+        public bool IsInList()
+        {
+            return _list.HasSameStamp(_index, _stamp);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (obj is ListNode<T>) && Equals((ListNode<T>)obj);
+        }
+
+        public bool Equals(ListNode<T> node)
+        {
+            return (_list == node._list) && (_index == node._index);
         }
 
         public override int GetHashCode()

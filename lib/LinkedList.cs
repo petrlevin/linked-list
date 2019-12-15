@@ -18,6 +18,7 @@ namespace LinkedList
         private int _place;
         private Forward _forward;
         private Reverse _reverse;
+        private ReallocateStrategy _reallocate;
 
         private ListNode<T> NodeAt(int index)
         {
@@ -32,12 +33,13 @@ namespace LinkedList
 
 
 
-        public LinkedList(int capacity = 256)
+        public LinkedList(int capacity = 256, ReallocateStrategy reallocate = null)
         {
             _capacity = capacity;
             _nodes = CreateNodes(capacity);
             _forward = new Forward(this);
             _reverse = new Reverse(this);
+            _reallocate = reallocate ?? new ReallocateStrategy.Default();
         }
 
         private static int GetCapacity(ICollection<T> source)
@@ -49,7 +51,7 @@ namespace LinkedList
             }
             return capacity;
         }
-        public LinkedList(ICollection<T> source) : this(GetCapacity(source))
+        public LinkedList(ICollection<T> source, ReallocateStrategy reallocate = null) : this(GetCapacity(source), reallocate)
         {
             foreach (var item in source)
             {
@@ -116,7 +118,7 @@ namespace LinkedList
                 _tail = node.Previous;
             }
             _place = index;
-            node.Stamp = _nodes[_place].Stamp + 1;
+            _nodes[_place].Stamp++;
         }
 
 
@@ -199,17 +201,19 @@ namespace LinkedList
             return result;
         }
 
+
+        
+
         private void ReAllocate()
         {
-            var capacity = _capacity * 2;
+            var capacity = _reallocate.GetNewCapacity(_capacity);
             var nodes = new Node<T>[capacity];
             _nodes.CopyTo(nodes, 0);
-            Array.Copy(CreateNodes(_capacity), 0, nodes, _capacity, _capacity);
+            Array.Copy(CreateNodes(capacity-_capacity), 0, nodes, _capacity,capacity-_capacity);
             _nodes = nodes;
             _capacity = capacity;
         }
     }
-
 
 
 }

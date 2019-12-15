@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedList", "lib\LinkedLis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedList.Tests", "tests\LinkedList.Tests.csproj", "{C824501B-A3C3-4F98-87DB-5A81B5DAD7CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedList.Bench", "bench\LinkedList.Bench.csproj", "{51BA8049-321A-4241-B9CE-F1B113184512}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,19 @@ Global
 		{C824501B-A3C3-4F98-87DB-5A81B5DAD7CE}.Release|x64.Build.0 = Release|Any CPU
 		{C824501B-A3C3-4F98-87DB-5A81B5DAD7CE}.Release|x86.ActiveCfg = Release|Any CPU
 		{C824501B-A3C3-4F98-87DB-5A81B5DAD7CE}.Release|x86.Build.0 = Release|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Debug|x64.Build.0 = Debug|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Debug|x86.Build.0 = Debug|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Release|x64.ActiveCfg = Release|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Release|x64.Build.0 = Release|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Release|x86.ActiveCfg = Release|Any CPU
+		{51BA8049-321A-4241-B9CE-F1B113184512}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

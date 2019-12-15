@@ -3,7 +3,7 @@
 Here is implementation of doubly linked list that does store data at underlying array - each element of array has fields for index of next and previous node. Such design allows escape memory allocation at managed heap.  It could be usefull with huge collections of value type data with intention of frequent insertions.
 
 
-
+## Benchmark [source](bench/Insertions.cs)
 
 BenchmarkDotNet=v0.12.0, OS=ubuntu 18.04
 Intel Core i3-4150 CPU 3.50GHz (Haswell), 1 CPU, 4 logical and 2 physical cores

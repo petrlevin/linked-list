@@ -30,12 +30,31 @@ namespace LinkedList
             return Enumerable.Repeat(node, capacity).ToArray();
         }
 
+
+
         public LinkedList(int capacity = 256)
         {
             _capacity = capacity;
             _nodes = CreateNodes(capacity);
             _forward = new Forward(this);
             _reverse = new Reverse(this);
+        }
+
+        private static int GetCapacity(ICollection<T> source)
+        {
+            var capacity = 256;
+            while (source.Count > capacity)
+            {
+                capacity = capacity * 2;
+            }
+            return capacity;
+        }
+        public LinkedList(ICollection<T> source) : this(GetCapacity(source))
+        {
+            foreach (var item in source)
+            {
+                AddLast(item);
+            }
         }
 
         public void AddFirst(T value)
@@ -76,10 +95,6 @@ namespace LinkedList
             Remove(index);
         }
 
-        public void Link(ListNode<T> start,ListNode<T> end)
-        {
-            Link(start._index,end._index);
-        }       
 
         private void Remove(int index)
         {
@@ -99,43 +114,12 @@ namespace LinkedList
             if (index == _tail)
             {
                 _tail = node.Previous;
-            }       
+            }
             _place = index;
+            node.Stamp = _nodes[_place].Stamp + 1;
         }
 
-        private void Link(int start,int end)
-        {
-            
-            var node = _nodes[start];
-            if (node.Next ==end)
-            {
-                return;
-            }
-            if (node.Next >= 0)
-            {
-                _nodes[node.Next].Previous = -1;
-                _place = node.Next;
-            }
-            node.Next = end;
-            node = _nodes[end];
-            if (node.Previous >= 0)
-            {
-                _nodes[node.Previous].Next = -1;
-            }
-            node.Previous = start;
 
-            if (node.Previous >= 0)
-            {
-                _nodes[node.Previous].Next = node.Next;
-            }
-         }       
-
-
-
-        public void CopyTo(T[] destination)
-        {
-            throw new NotImplementedException();
-        }
         public List<T> ToList()
         {
             var result = new List<T>();
@@ -201,9 +185,9 @@ namespace LinkedList
                 ReAllocate();
             }
             var placeNode = _nodes[_place];
-            node.Stamp =  _nodes[_place].Stamp+1;          
+
             _nodes[_place] = node;
-            
+
             if ((placeNode.Next != -1) && (_nodes[placeNode.Next].Previous == _place))
             {
                 _place = placeNode.Next;

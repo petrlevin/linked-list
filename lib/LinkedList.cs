@@ -6,8 +6,10 @@ namespace LinkedList
 {
 
 
+
     public partial class LinkedList<T>
     {
+        const string INVALID_NODE_MESSAGE = "Node is not valid. Has been removed";
         private int _capacity;
         private Node<T>[] _nodes;
         private int _head = -1;
@@ -19,10 +21,10 @@ namespace LinkedList
 
         private ListNode<T> NodeAt(int index)
         {
-            return new ListNode<T>(this, index);
+            return new ListNode<T>(this, index, _nodes[index].Stamp);
         }
 
-        private Node<T>[] CreateNodes(int capacity)
+        private static Node<T>[] CreateNodes(int capacity)
         {
             var node = new Node<T>(-1, -1, default(T));
             return Enumerable.Repeat(node, capacity).ToArray();
@@ -48,12 +50,12 @@ namespace LinkedList
             return;
         }
 
-        public ListNode<T> TailNode()
+        public ListNode<T> Tail()
         {
             return NodeAt(_tail);
         }
 
-        public ListNode<T> HeadNode()
+        public ListNode<T> Head()
         {
             return NodeAt(_head);
         }
@@ -68,73 +70,68 @@ namespace LinkedList
             return _forward.Add(target, value);
         }
 
-        public void RemoveAfter(ListNode<T> target, int count = 0)
+        public void Remove(ListNode<T> target)
         {
             var index = target._index;
-            RemoveAfter(index, count);
+            Remove(index);
         }
 
-        internal void RemoveAfter(int index, int count)
+        public void Link(ListNode<T> start,ListNode<T> end)
         {
- 
+            Link(start._index,end._index);
+        }       
 
-            var node = _nodes[index];
-            var next = node.Next;
-            _nodes[next].Previous = -1;
-
-            if (count == 0)
-            {
-                _nodes[index].Next = -1;
-                _tail = index;
-                return;
-            }
-            else
-            {
-                for (var j = 0; j < count; j++)
-                {
-                    node = _nodes[next];
-                    if (node.Next == -1)
-                    {
-                        _nodes[index].Next = -1;
-                        _tail = index;
-                        return;
-                    }
-                    next = node.Next;
-                }
-                _nodes[next].Previous = index;
-                _nodes[index].Next = next;
-            }
-        }
-
-        internal void RemoveBefore(int index, int count)
+        private void Remove(int index)
         {
             var node = _nodes[index];
-            var next = node.Previous;
-            _nodes[next].Previous = -1;
-
-            if (count == 0)
+            if (node.Previous >= 0)
             {
-                _nodes[index].Next = -1;
-                _tail = index;
+                _nodes[node.Previous].Next = node.Next;
+            }
+            if (node.Next >= 0)
+            {
+                _nodes[node.Next].Previous = node.Previous;
+            }
+            if (index == _head)
+            {
+                _head = node.Next;
+            }
+            if (index == _tail)
+            {
+                _tail = node.Previous;
+            }       
+            _place = index;
+        }
+
+        private void Link(int start,int end)
+        {
+            
+            var node = _nodes[start];
+            if (node.Next ==end)
+            {
                 return;
             }
-            else
+            if (node.Next >= 0)
             {
-                for (var j = 0; j < count; j++)
-                {
-                    node = _nodes[next];
-                    if (node.Next == -1)
-                    {
-                        _nodes[index].Next = -1;
-                        _tail = index;
-                        return;
-                    }
-                    next = node.Next;
-                }
-                _nodes[next].Previous = index;
-                _nodes[index].Next = next;
+                _nodes[node.Next].Previous = -1;
+                _place = node.Next;
             }
-        }
+            node.Next = end;
+            node = _nodes[end];
+            if (node.Previous >= 0)
+            {
+                _nodes[node.Previous].Next = -1;
+            }
+            node.Previous = start;
+
+            if (node.Previous >= 0)
+            {
+                _nodes[node.Previous].Next = node.Next;
+            }
+         }       
+
+
+
         public void CopyTo(T[] destination)
         {
             throw new NotImplementedException();
@@ -152,47 +149,61 @@ namespace LinkedList
             return result;
         }
 
-        internal T GetValue(int index)
+
+        private void CheckStamp(int index, int stamp)
         {
+            if (!HasSameStamp(index, stamp))
+            {
+                throw new InvalidOperationException(INVALID_NODE_MESSAGE);
+            }
+        }
+
+        internal bool HasSameStamp(int index, int stamp)
+        {
+            return _nodes[index].Stamp == stamp;
+        }
+
+        internal T GetValue(int index, int stamp)
+        {
+            CheckStamp(index, stamp);
             return _nodes[index].Value;
         }
 
-        internal void SetValue(int index, T value)
+        internal void SetValue(int index, int stamp, T value)
         {
+            CheckStamp(index, stamp);
             _nodes[index].Value = value;
         }
 
-        internal ListNode<T> GetNext(int index)
+        internal ListNode<T> GetNext(int index, int stamp)
         {
+            CheckStamp(index, stamp);
             var next = _nodes[index].Next;
             if (next < 0)
                 throw new ArgumentOutOfRangeException("node is tail");
             return NodeAt(next);
         }
-        internal ListNode<T> GetPrevious(int index)
+        internal ListNode<T> GetPrevious(int index, int stamp)
         {
+            CheckStamp(index, stamp);
             var previous = _nodes[index].Previous;
             if (previous < 0)
                 throw new ArgumentOutOfRangeException("node is head");
             return NodeAt(previous);
 
         }
-        internal bool IsTail(int index)
-        {
 
-            return index == _tail;
-        }
-
-        internal bool IsHead(int index)
-        {
-            return index == _head;
-        }
-
-        internal int AddNode(Node<T> node)
+        private int AddNode(Node<T> node)
         {
             var result = _place;
+            if (_place == _capacity)
+            {
+                ReAllocate();
+            }
             var placeNode = _nodes[_place];
+            node.Stamp =  _nodes[_place].Stamp+1;          
             _nodes[_place] = node;
+            
             if ((placeNode.Next != -1) && (_nodes[placeNode.Next].Previous == _place))
             {
                 _place = placeNode.Next;
@@ -204,6 +215,15 @@ namespace LinkedList
             return result;
         }
 
+        private void ReAllocate()
+        {
+            var capacity = _capacity * 2;
+            var nodes = new Node<T>[capacity];
+            _nodes.CopyTo(nodes, 0);
+            Array.Copy(CreateNodes(_capacity), 0, nodes, _capacity, _capacity);
+            _nodes = nodes;
+            _capacity = capacity;
+        }
     }
 
 

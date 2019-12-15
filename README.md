@@ -9,11 +9,13 @@ Here is implementation of doubly linked list that does store data at underlying 
 ## benchmark [source](bench/Insertions.cs)
 
 
-|                                Method |       N |         Mean |       Error |     StdDev |      Gen 0 |     Gen 1 | Gen 2 |    Allocated |
-|-------------------------------------- |-------- |-------------:|------------:|-----------:|-----------:|----------:|------:|-------------:|
-|                            LinkedList |   65536 |   2,151.0 us |   105.20 us |   288.0 us |          - |         - |     - |   2048.09 KB |
-| System.Collections.Generic.LinkedList |   65536 |     572.1 us |    42.67 us |   119.7 us |          - |         - |     - |       768 KB |
-|                            LinkedList | 1048576 |  30,159.8 us |   165.24 us |   129.0 us |          - |         - |     - |  32768.09 KB |
-| System.Collections.Generic.LinkedList | 1048576 |  25,987.6 us |   269.68 us |   239.1 us |  2000.0000 |         - |     - |     12288 KB |
-|                            LinkedList | 8388608 | 258,439.0 us | 1,615.77 us | 1,511.4 us |          - |         - |     - | 262144.14 KB |
-| System.Collections.Generic.LinkedList | 8388608 | 580,497.1 us | 4,601.77 us | 4,079.4 us | 16000.0000 | 5000.0000 |     - |  98304.05 KB |
+
+
+|                                Method |       N |         Mean |        Error |      StdDev |      Gen 0 |     Gen 1 | Gen 2 |   Allocated |
+|-------------------------------------- |-------- |-------------:|-------------:|------------:|-----------:|----------:|------:|------------:|
+|                            LinkedList |   65536 |   1,294.9 us |     45.53 us |    126.9 us |          - |         - |     - |           - |
+| System.Collections.Generic.LinkedList |   65536 |     607.7 us |     46.24 us |    126.6 us |          - |         - |     - |    786432 B |
+|                            LinkedList | 1048576 |  18,569.8 us |    278.52 us |    260.5 us |          - |         - |     - |           - |
+| System.Collections.Generic.LinkedList | 1048576 |  26,550.6 us |    505.23 us |    540.6 us |  2000.0000 |         - |     - |  12582912 B |
+|                            LinkedList | 8388608 | 148,399.1 us |  1,282.85 us |  1,137.2 us |          - |         - |     - |        48 B |
+| System.Collections.Generic.LinkedList | 8388608 | 588,508.4 us | 11,732.07 us | 18,265.4 us | 16000.0000 | 5000.0000 |     - | 100663344 B |

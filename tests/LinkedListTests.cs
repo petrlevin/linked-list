@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace LinkedList.Tests
 {
-    public class Tests
+    public class LinkedListTests
     {
         [SetUp]
         public void Setup()
@@ -130,7 +130,7 @@ namespace LinkedList.Tests
              }
              var t = ll.Tail();
              var n = ll.Head();
-             for (int i = 1; i < 7; i++)
+             for (int i = 1; i < 8; i++)
              {
                  n = n.Next();
              }

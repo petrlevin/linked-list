@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo ( "LinkedList.Tests" ) ] 
 namespace LinkedList
 {
     public partial class LinkedList<T>
@@ -12,7 +14,7 @@ namespace LinkedList
         private int _head = -1;
         private int _tail = -1;
         private int _length;
-        private int _place;
+        private Stack  _places;
         private Forward _forward;
         private Reverse _reverse;
         private ReallocateStrategy _reallocate;
@@ -64,30 +66,24 @@ namespace LinkedList
             {
                 _tail = node.Previous;
             }
-            _place = index;
-            _nodes[_place].Stamp++;
+            _places.Push(index);
+            _nodes[index].Stamp++;
         }
+
+        
 
         private int AddNode(Node<T> node)
         {
-            var result = _place;
-            if (_place == _capacity)
+            int place;
+            if (!_places.TryPop(out place)){
+                place = ++_length;
+            }
+            if (place == _capacity)
             {
                 ReAllocate();
             }
-            var placeNode = _nodes[_place];
-
-            _nodes[_place] = node;
-
-            if ((placeNode.Next != -1) && (_nodes[placeNode.Next].Previous == _place))
-            {
-                _place = placeNode.Next;
-            }
-            else
-            {
-                _place = ++_length;
-            }
-            return result;
+            _nodes[place] = node;
+            return place;
         }
 
         private void ReAllocate()
@@ -120,6 +116,7 @@ namespace LinkedList
             _forward = new Forward(this);
             _reverse = new Reverse(this);
             _reallocate = reallocate ?? new ReallocateStrategy.Default();
+            _places = new Stack();
         }
 
         public LinkedList(ICollection<T> source, ReallocateStrategy reallocate = null) : this(GetCapacity(source), reallocate)
@@ -193,7 +190,7 @@ namespace LinkedList
                 throw new ArgumentOutOfRangeException("node is tail");
             return NodeAt(next);
         }
-        
+
         internal ListNode<T> GetPrevious(int index, int stamp)
         {
             CheckStamp(index, stamp);

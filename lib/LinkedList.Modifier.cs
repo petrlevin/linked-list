@@ -15,6 +15,7 @@ namespace LinkedList
             protected abstract void SetHead(int index);
             protected abstract int GetTail();
             protected abstract int GetHead();
+
             protected Modifier(LinkedList<T> list)
             {
                 List = list;
@@ -31,6 +32,7 @@ namespace LinkedList
                     SetTail(place);
                 return List.NodeAt(place);
             }
+            
             public void Add(T value)
             {
                 var place = List.AddNode(NewNode(-1, GetHead(), value));

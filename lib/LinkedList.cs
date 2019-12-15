@@ -16,15 +16,18 @@ namespace LinkedList
         private Forward _forward;
         private Reverse _reverse;
         private ReallocateStrategy _reallocate;
+
         private ListNode<T> NodeAt(int index)
         {
             return new ListNode<T>(this, index, _nodes[index].Stamp);
         }
+
         private static Node<T>[] CreateNodes(int capacity)
         {
             var node = new Node<T>(-1, -1, default(T));
             return Enumerable.Repeat(node, capacity).ToArray();
         }
+
         private static int GetCapacity(ICollection<T> source)
         {
             var capacity = 256;
@@ -41,6 +44,7 @@ namespace LinkedList
                 throw new InvalidOperationException(INVALID_NODE_MESSAGE);
             }
         }
+
         private void Remove(int index)
         {
             var node = _nodes[index];
@@ -63,6 +67,7 @@ namespace LinkedList
             _place = index;
             _nodes[_place].Stamp++;
         }
+
         private int AddNode(Node<T> node)
         {
             var result = _place;
@@ -84,6 +89,7 @@ namespace LinkedList
             }
             return result;
         }
+
         private void ReAllocate()
         {
             var capacity = _reallocate.GetNewCapacity(_capacity);
@@ -106,6 +112,7 @@ namespace LinkedList
             }
             return result;
         }
+
         public LinkedList(int capacity = 256, ReallocateStrategy reallocate = null)
         {
             _capacity = capacity;
@@ -114,6 +121,7 @@ namespace LinkedList
             _reverse = new Reverse(this);
             _reallocate = reallocate ?? new ReallocateStrategy.Default();
         }
+
         public LinkedList(ICollection<T> source, ReallocateStrategy reallocate = null) : this(GetCapacity(source), reallocate)
         {
             foreach (var item in source)
@@ -121,32 +129,39 @@ namespace LinkedList
                 AddLast(item);
             }
         }
+
         public void AddFirst(T value)
         {
             _forward.Add(value);
             return;
         }
+
         public void AddLast(T value)
         {
             _reverse.Add(value);
             return;
         }
+
         public ListNode<T> Tail()
         {
             return NodeAt(_tail);
         }
+
         public ListNode<T> Head()
         {
             return NodeAt(_head);
         }
+
         public ListNode<T> AddBefore(ListNode<T> target, T value)
         {
             return _reverse.Add(target, value);
         }
+
         public ListNode<T> AddAfter(ListNode<T> target, T value)
         {
             return _forward.Add(target, value);
         }
+
         public void Remove(ListNode<T> target)
         {
             var index = target._index;
@@ -157,16 +172,19 @@ namespace LinkedList
         {
             return _nodes[index].Stamp == stamp;
         }
+
         internal T GetValue(int index, int stamp)
         {
             CheckStamp(index, stamp);
             return _nodes[index].Value;
         }
+
         internal void SetValue(int index, int stamp, T value)
         {
             CheckStamp(index, stamp);
             _nodes[index].Value = value;
         }
+
         internal ListNode<T> GetNext(int index, int stamp)
         {
             CheckStamp(index, stamp);
@@ -175,6 +193,7 @@ namespace LinkedList
                 throw new ArgumentOutOfRangeException("node is tail");
             return NodeAt(next);
         }
+        
         internal ListNode<T> GetPrevious(int index, int stamp)
         {
             CheckStamp(index, stamp);

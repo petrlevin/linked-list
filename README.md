@@ -6,7 +6,7 @@ Here is implementation of doubly linked list that does store data at underlying 
 
 
 
-## bnchmark [source](bench/Insertions.cs)
+## benchmark [source](bench/Insertions.cs)
 
 
 |                                Method |       N |         Mean |       Error |     StdDev |      Gen 0 |     Gen 1 | Gen 2 |    Allocated |

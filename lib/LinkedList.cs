@@ -17,7 +17,9 @@ namespace LinkedList
         private Stack  _places;
         private Forward _forward;
         private Reverse _reverse;
-        private ReallocateStrategy _reallocate;
+        private Func<int,int> _reallocate;
+
+        private int DefaultReallocate(int capacity) => capacity + capacity / 2;
 
         private ListNode<T> NodeAt(int index)
         {
@@ -88,7 +90,7 @@ namespace LinkedList
 
         private void ReAllocate()
         {
-            var capacity = _reallocate.GetNewCapacity(_capacity);
+            var capacity = _reallocate(_capacity);
             var nodes = new Node<T>[capacity];
             _nodes.CopyTo(nodes, 0);
             Array.Copy(CreateNodes(capacity - _capacity), 0, nodes, _capacity, capacity - _capacity);
@@ -109,17 +111,17 @@ namespace LinkedList
             return result;
         }
 
-        public LinkedList(int capacity = 256, ReallocateStrategy reallocate = null)
+        public LinkedList(int capacity = 256, Func<int,int> reallocate = null)
         {
             _capacity = capacity;
             _nodes = CreateNodes(capacity);
             _forward = new Forward(this);
             _reverse = new Reverse(this);
-            _reallocate = reallocate ?? new ReallocateStrategy.Default();
+            _reallocate = reallocate ??DefaultReallocate;
             _places = new Stack();
         }
 
-        public LinkedList(ICollection<T> source, ReallocateStrategy reallocate = null) : this(GetCapacity(source), reallocate)
+        public LinkedList(ICollection<T> source, Func<int,int> reallocate = null) : this(GetCapacity(source), reallocate)
         {
             foreach (var item in source)
             {

@@ -11,7 +11,7 @@ namespace LinkedList
         }
 
         public void Push(int value){
-            if (_head==_values.LongLength){
+            if (_head==_values.Length){
                 Reallocate();
             }
             _values[_head] = value;

@@ -64,8 +64,8 @@ namespace LinkedList
         }
 
         public override string ToString()
-        {
-            return $"@{GetValue()}";
+        {         
+            return IsInList()?$"@{GetValue()}":"Removed";          
         }
     }
 }

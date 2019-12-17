@@ -51,16 +51,21 @@ namespace LinkedList
 
         public bool Equals(ListNode<T> node)
         {
-            return (_list == node._list) && (_index == node._index);
+            return (_list == node._list) && (_index == node._index) && (_stamp==node._stamp);
         }
-        
+
         public override int GetHashCode()
         {
-            var hashCode = -1127307738;
+            int hashCode = 1463204225;
             hashCode = hashCode * -1521134295 + _index.GetHashCode();
+            hashCode = hashCode * -1521134295 + _stamp.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<LinkedList<T>>.Default.GetHashCode(_list);
-            hashCode = hashCode * -1521134295 + EqualityComparer<T>.Default.GetHashCode(GetValue());
             return hashCode;
+        }
+
+        public override string ToString()
+        {
+            return $"@{GetValue()}";
         }
     }
 }

@@ -19,13 +19,8 @@ namespace LinkedList
         private Forward _forward;
         private Reverse _reverse;
         private Func<int, int> _reallocate;
-
         private int _version;
-
-        public int Count => throw new NotImplementedException();
-
-        public bool IsReadOnly => throw new NotImplementedException();
-
+        private int _count;
         private int DefaultReallocate(int capacity) => capacity + capacity / 2;
 
         private ListNode<T> NodeAt(int index)
@@ -78,6 +73,7 @@ namespace LinkedList
             _places.Push(index);
             _nodes[index].Stamp++;
             _version++;
+            _count--;
         }
 
 
@@ -95,6 +91,7 @@ namespace LinkedList
             }
             _nodes[place] = node;
             _version++;
+            _count++;
             return place;
         }
 
@@ -273,6 +270,11 @@ namespace LinkedList
             }
             return false;
         }
+
+ 
+        public int Count => _count;
+
+        public bool IsReadOnly => false;       
 
         public IEnumerator<T> GetEnumerator()
         {

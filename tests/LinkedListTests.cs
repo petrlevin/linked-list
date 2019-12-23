@@ -219,7 +219,22 @@ namespace LinkedList.Tests
                  Assert.AreEqual(s[(i-4)%8],arr[i]);
              }
                               
+        }
+
+         [Test]
+          public void Count(){
+            var s = "ABCDEFGK";
+             var ll= new LinkedList<Char>();
+             for (int i = 0; i < 256+16; i++)
+             {
+                 ll.AddLast(s[i%8]);
+             }
+             Assert.AreEqual(256+16,ll.Count);
+             ll.Remove(ll.Tail());
+             ll.Remove(ll.Head());
+             Assert.AreEqual(256+16-2,ll.Count);
         }       
+             
 
         [Test]
          public void HugeList(){

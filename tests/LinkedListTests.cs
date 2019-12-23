@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace LinkedList.Tests
 {
@@ -171,6 +172,54 @@ namespace LinkedList.Tests
   
         } 
 
+        [Test]
+        public void Enumerator(){
+            var s = "ABCDEFGK";
+             var ll= new LinkedList<Char>();
+             for (int i = 0; i < 256+16; i++)
+             {
+                 ll.AddLast(s[i%8]);
+             }
+             var j = 0;
+             foreach (var item in ll)
+             {
+                 Assert.AreEqual(s[j],item);
+                
+                 j= (++j)%8;
+             }                                  
+        }
+
+        [Test]
+        public void Contains(){
+            var s = "ABCDEFGK";
+             var ll= new LinkedList<Char>();
+             for (int i = 0; i < 256+16; i++)
+             {
+                 ll.AddLast(s[i%8]);
+             }
+             Assert.AreEqual(true,(((ICollection<Char>)ll).Contains('A')));
+             Assert.AreEqual(false,(((ICollection<Char>)ll).Contains('X')));
+  
+                              
+        }      
+
+        [Test]
+        public void CopyTo(){
+            var s = "ABCDEFGK";
+             var ll= new LinkedList<Char>();
+             for (int i = 0; i < 256+16; i++)
+             {
+                 ll.AddLast(s[i%8]);
+             }
+             var arr = new Char[256+16+4];
+             ((ICollection<Char>)ll).CopyTo(arr,4);
+             
+             for (int i = 4; i < arr.Length; i++)
+             {
+                 Assert.AreEqual(s[(i-4)%8],arr[i]);
+             }
+                              
+        }       
 
         [Test]
          public void HugeList(){

@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-//Here is implementation of doubly linked list that does store data at underlying array 
-//- each element of array has fields for index of next and previous node. 
-//Such design allows escape memory allocation at managed heap. 
-//It could be usefull with huge collections of value type data with intention of frequent insertions
+
 namespace LinkedList
 {
     public struct ListNode<T> : IEquatable<ListNode<T>>
